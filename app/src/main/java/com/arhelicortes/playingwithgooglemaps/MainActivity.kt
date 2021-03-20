@@ -9,13 +9,13 @@ import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import androidx.lifecycle.Transformations.map
 import com.arhelicortes.playingwithgooglemaps.viewmodels.MapViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
+import com.google.maps.android.ktx.addMarker
 
 class MainActivity : AppCompatActivity() {
 
@@ -39,25 +39,38 @@ class MainActivity : AppCompatActivity() {
             //map.isTrafficEnabled = true
 
             map.isMyLocationEnabled = true
+            map.setOnPoiClickListener{
+                createMarkerForPOI(it)
+            }
             mapViewModel.onMapLoaded()
+            map.setMapStyle(MapStyleOptions.loadRawResourceStyle(this,R.raw.mapa))
         }
 
         setUpObservers()
+    }
+
+    private fun createMarkerForPOI(it:PointOfInterest?){
+        currentMarker?.remove()
+
+        val marker = map.addMarker {
+            title(it?.name)
+            position(it?.latLng!!)
+        }
+        currentMarker = marker
     }
 
     private fun setUpObservers() {
         mapViewModel.location.observe(this, Observer {
             val latLng = LatLng(it.latitude, it.longitude)
             map.animateCamera(
-                    CameraUpdateFactory.newLatLngZoom(latLng, 15f)
+                    CameraUpdateFactory.newLatLngZoom(latLng, 12f)
             )
             currentMarker?.remove()
-            val markerOptions = MarkerOptions().apply {
+            val marker = map.addMarker{
                 title("¡Estas aquí!")
                 snippet("Aquí es donde estas")
                 position(latLng)
             }
-            val marker = map.addMarker(markerOptions)
             marker.showInfoWindow()
             currentMarker = marker
 
