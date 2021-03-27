@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
             buttonView,isChecked ->
             map.isTrafficEnabled = isChecked
         }
-        val list = listOf("Default","Día","Noche","Estilo A")
+        val list = listOf("Default","Día","Noche","Estilo A","Estilo Itz")
         val adapter = ArrayAdapter(this,R.layout.item_list,list)
         binding.actvMapas.setAdapter(adapter)
         binding.actvMapas.setOnItemClickListener{parent,view,position,id ->
@@ -86,6 +86,7 @@ class MainActivity : AppCompatActivity() {
                 1 -> map.setMapStyle(null)
                 2 -> map.setMapStyle(MapStyleOptions.loadRawResourceStyle(this,R.raw.mapa_night))
                 3 -> map.setMapStyle(MapStyleOptions.loadRawResourceStyle(this,R.raw.mapa_arheli))
+                4 -> map.setMapStyle(MapStyleOptions.loadRawResourceStyle(this,R.raw.mapa_itz))
 
             }
         }
