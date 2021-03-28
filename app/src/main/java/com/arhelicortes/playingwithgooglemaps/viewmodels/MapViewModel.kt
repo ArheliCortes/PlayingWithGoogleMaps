@@ -11,11 +11,32 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.location.*
+import com.google.android.gms.maps.model.Marker
 
 class MapViewModel(val app: Application) : AndroidViewModel(app) {
 
     private val _location = MutableLiveData<Location>()
     val location: LiveData<Location> = _location
+
+    // TODO : Crear LiveData de isTrafficEnabled
+    private val _isTrafficEnabled = MutableLiveData(false)
+    val isTrafficEnabled: LiveData<Boolean> = _isTrafficEnabled
+
+    private val _mapStyle = MutableLiveData<Int?>()
+    val mapStyle: LiveData<Int?> = _mapStyle
+
+    private val _currentMarker = MutableLiveData<Marker?>(null)
+    val currentMarker: LiveData<Marker?> = _currentMarker
+
+    private val _circleVisibility = MutableLiveData(false)
+    val circleVisibility: MutableLiveData<Boolean> = _circleVisibility
+
+    private val _polygonVisibility = MutableLiveData(false)
+    val polygonVisibility: MutableLiveData<Boolean> = _polygonVisibility
+
+    private val _polylineVisibility = MutableLiveData(false)
+    val polylineVisibility: MutableLiveData<Boolean> = _polylineVisibility
+
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val locationCallback = object : LocationCallback() {
@@ -63,5 +84,30 @@ class MapViewModel(val app: Application) : AndroidViewModel(app) {
         super.onCleared()
         fusedLocationClient.removeLocationUpdates(locationCallback)
 
+    }
+
+    fun onTrafficChange(isTrafficEnabled: Boolean) {
+        _isTrafficEnabled.value = isTrafficEnabled
+    }
+
+    fun onStyleSelect(style: Int?) {
+        _mapStyle.value = style
+    }
+
+    fun switchMarker(marker: Marker) {
+        _currentMarker.value?.remove()
+        _currentMarker.value = marker
+    }
+
+    fun changeCircleVisibility(isVisible: Boolean) {
+        _circleVisibility.value = isVisible
+    }
+
+    fun changePolygonVisibility(isVisible: Boolean) {
+        _polygonVisibility.value = isVisible
+    }
+
+    fun changePolylineVisibility(isVisible: Boolean) {
+        _polylineVisibility.value = isVisible
     }
 }
