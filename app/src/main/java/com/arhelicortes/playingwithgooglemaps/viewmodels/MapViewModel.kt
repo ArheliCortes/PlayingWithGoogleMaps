@@ -18,24 +18,20 @@ class MapViewModel(val app: Application) : AndroidViewModel(app) {
     private val _location = MutableLiveData<Location>()
     val location: LiveData<Location> = _location
 
-    // TODO : Crear LiveData de isTrafficEnabled
-    private val _isTrafficEnabled = MutableLiveData(false)
-    val isTrafficEnabled: LiveData<Boolean> = _isTrafficEnabled
-
+    val isTrafficEnabled = MutableLiveData(true)
     private val _mapStyle = MutableLiveData<Int?>()
     val mapStyle: LiveData<Int?> = _mapStyle
 
     private val _currentMarker = MutableLiveData<Marker?>(null)
     val currentMarker: LiveData<Marker?> = _currentMarker
 
-    private val _circleVisibility = MutableLiveData(false)
-    val circleVisibility: MutableLiveData<Boolean> = _circleVisibility
 
-    private val _polygonVisibility = MutableLiveData(false)
-    val polygonVisibility: MutableLiveData<Boolean> = _polygonVisibility
+    val circleVisibility= MutableLiveData(false)
 
-    private val _polylineVisibility = MutableLiveData(false)
-    val polylineVisibility: MutableLiveData<Boolean> = _polylineVisibility
+
+    val polygonVisibility= MutableLiveData(true)
+
+    val polylineVisibility= MutableLiveData(true)
 
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -74,9 +70,6 @@ class MapViewModel(val app: Application) : AndroidViewModel(app) {
         return ActivityCompat.checkSelfPermission(
                 app,
                 Manifest.permission.ACCESS_FINE_LOCATION
-        ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                app,
-                Manifest.permission.ACCESS_COARSE_LOCATION
         ) != PackageManager.PERMISSION_GRANTED
     }
 
@@ -84,10 +77,6 @@ class MapViewModel(val app: Application) : AndroidViewModel(app) {
         super.onCleared()
         fusedLocationClient.removeLocationUpdates(locationCallback)
 
-    }
-
-    fun onTrafficChange(isTrafficEnabled: Boolean) {
-        _isTrafficEnabled.value = isTrafficEnabled
     }
 
     fun onStyleSelect(style: Int?) {
@@ -99,15 +88,4 @@ class MapViewModel(val app: Application) : AndroidViewModel(app) {
         _currentMarker.value = marker
     }
 
-    fun changeCircleVisibility(isVisible: Boolean) {
-        _circleVisibility.value = isVisible
-    }
-
-    fun changePolygonVisibility(isVisible: Boolean) {
-        _polygonVisibility.value = isVisible
-    }
-
-    fun changePolylineVisibility(isVisible: Boolean) {
-        _polylineVisibility.value = isVisible
-    }
 }

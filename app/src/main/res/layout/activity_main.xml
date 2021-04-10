@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:text="¿Habilitar tráfico?"
+            android:checked="@={vm.isTrafficEnabled}"
             app:layout_constraintEnd_toStartOf="@+id/switch_circle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -31,6 +32,7 @@
             android:layout_margin="8dp"
             android:layout_marginEnd="1dp"
             android:text="¿Mostrar círculo?"
+            android:checked="@={vm.circleVisibility}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/switch_traffic"
             app:layout_constraintTop_toTopOf="parent" />
@@ -41,6 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:text="¿Mostrar polígono?"
+            android:checked="@={vm.polygonVisibility}"
             app:layout_constraintEnd_toStartOf="@+id/switch_polyline"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -52,6 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:text="¿Mostrar polilínea?"
+            android:checked="@={vm.polylineVisibility}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/switch_polygon"
